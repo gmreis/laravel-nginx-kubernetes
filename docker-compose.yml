@@ -4,6 +4,12 @@ services:
     build:
       context: ./
       dockerfile: app.dockerfile
+      args:
+        - USER_ID=${USER_ID}
+        - USER_NAME=${USER_NAME}
+        - GROUP_ID=${GROUP_ID}
+        - GROUP_NAME=${GROUP_NAME}
+    user: "${USER_ID}:${GROUP_ID}"
     depends_on:
       - database
     working_dir: /opt/app
