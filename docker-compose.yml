@@ -4,6 +4,13 @@ services:
     build:
       context: ./
       dockerfile: app.dockerfile
+      args:
+        - USER_ID=${USER_ID}
+        - USER_NAME=${USER_NAME}
+        - GROUP_ID=${GROUP_ID}
+        - GROUP_NAME=${GROUP_NAME}
+    container_name: lnk-app
+    user: "${USER_ID}:${GROUP_ID}"
     depends_on:
       - database
     working_dir: /opt/app
@@ -15,6 +22,7 @@ services:
 
   web:
     image: nginx:alpine
+    container_name: lnk-web
     depends_on:
       - app
     volumes:
@@ -25,6 +33,7 @@ services:
 
   database:
     image: mysql:5.7
+    container_name: lnk-database
     environment:
       - "MYSQL_DATABASE=homestead"
       - "MYSQL_USER=homestead"
